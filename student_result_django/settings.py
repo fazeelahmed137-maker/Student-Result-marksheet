@@ -20,7 +20,7 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 
 # Allow Railway domain + localhost
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', "").split(',')
 
 # ── Application definition ────────────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -66,11 +66,12 @@ WSGI_APPLICATION = 'student_result_django.wsgi.application'
 
 # ── Database ──────────────────────────────────────────────────────────────────
 # SQLite for both local and Railway (fine for this project size)
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3'
+    )
 }
 
 # ── Password validation ───────────────────────────────────────────────────────
