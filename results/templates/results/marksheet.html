@@ -1,0 +1,530 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Grade Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f1e6;
+            padding: 40px 0;
+        }
+
+        .marksheet {
+            width: 1000px;
+            min-height: 1350px;
+            margin: 30px auto;
+            background: #fff9dc;
+            padding: 35px 45px;
+            border: 3px double #000;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .marksheet::before {
+            content: "";
+            position: absolute;
+            top: 300px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 550px;
+            height: 550px;
+            background: url("{% static 'images/logo.png' %}") no-repeat center;
+            background-size: contain;
+            opacity: 0.04;
+            z-index: 0;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #000;
+            padding-bottom: 15px;
+        }
+
+        .header-left img {
+            width: 80px;
+        }
+
+        .header-center {
+            text-align: center;
+            flex: 1;
+            padding: 0 20px;
+        }
+
+        .header-center h2 {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .header-center p {
+            font-size: 12px;
+            margin-top: 3px;
+        }
+
+        .header-center .title {
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 6px;
+            letter-spacing: 2px;
+            border: 1px solid #000;
+            display: inline-block;
+            padding: 2px 12px;
+        }
+
+        .header-right {
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 18px 0;
+        }
+
+        .info-table td {
+            border: 1px solid #333;
+            padding: 6px 10px;
+            font-size: 13px;
+            background: transparent;
+        }
+
+        .marks-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 5px;
+        }
+
+        .marks-table th,
+        .marks-table td {
+            border: 1px solid #333;
+            padding: 7px 6px;
+            text-align: center;
+            font-size: 12px;
+        }
+
+        .marks-table th {
+            background: #e6e6e6;
+            font-weight: bold;
+        }
+
+        .marks-table td {
+            background: transparent;
+        }
+
+        .marks-table td.left {
+            text-align: left;
+        }
+
+        .arrear-note {
+            font-size: 11px;
+            font-style: italic;
+        }
+
+        .summary {
+            margin-top: 18px;
+            font-size: 13px;
+            line-height: 2;
+        }
+
+        .summary table {
+            border: none;
+            width: auto;
+            margin: 0;
+        }
+
+        .summary table td {
+            border: none;
+            padding: 1px 14px 1px 0;
+            font-size: 13px;
+            background: transparent;
+        }
+
+        .summary-label {
+            font-weight: bold;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 14px;
+            border-top: 1px solid #555;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .qr img {
+            width: 72px;
+        }
+
+        .qr p,
+        .signature p {
+            font-size: 10px;
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        .signature img {
+            width: 100px;
+        }
+
+        .download {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .download button {
+            padding: 8px 22px;
+            background: #1e3c72;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 3px;
+        }
+
+        .sem-tabs {
+            margin: 15px 0 5px 0;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .sem-tab {
+            padding: 6px 14px;
+            background: #e0e0e0;
+            border: 1px solid #aaa;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .sem-tab.active {
+            background: #1e3c72;
+            color: white;
+            border-color: #1e3c72;
+        }
+
+        @media print {
+
+            .download,
+            .sem-tabs {
+                display: none;
+            }
+
+            .marksheet {
+                min-height: auto;
+            }
+        }
+
+        .summary-arrear-cell {
+            border: 1px solid #333;
+            padding: 5px 10px;
+            font-size: 13px;
+            text-align: center;
+        }
+        .arrear-pending {
+            color: #c0392b;
+            font-weight: bold;
+        }
+        .arrear-ok {
+            color: #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="marksheet">
+        <div class="content">
+
+            <div class="header">
+                <div class="header-left"><img src="{% static 'images/logo.png' %}"></div>
+                <div class="header-center">
+                    <h2>C. Abdul Hakeem College (Autonomous)</h2>
+                    <p>Affiliated to Thiruvalluvar University | Melvisharam – 632 509</p>
+                    <p class="title">GRADE CARD</p>
+                </div>
+                <div class="header-right">
+                    <strong>Exam:</strong> {{ month_year }}<br>
+                    <strong>Arrears:</strong> {% if total_arrears == 0 %}Nil{% else %}{{ total_arrears }}{% endif %}
+                </div>
+            </div>
+
+            <table class="info-table">
+                <tr>
+                    <td><strong>Name:</strong> {{ student.name }}</td>
+                    <td><strong>Register No:</strong> {{ student.roll_no }}</td>
+                    <td><strong>Date of Birth:</strong> {{ student.dob }}</td>
+                </tr>
+                <tr>
+                    <td><strong>Department:</strong> {{ student.department.name }}</td>
+                    <td><strong>Year:</strong> {{ student.year }}</td>
+                    <td><strong>Current Semester:</strong> {{ student.semester }}</td>
+                </tr>
+            </table>
+
+            <div class="sem-tabs" id="semTabs">
+                <button class="sem-tab active" onclick="filterSemester('all')">All</button>
+                <button class="sem-tab" onclick="filterSemester('1')">Sem 1</button>
+                <button class="sem-tab" onclick="filterSemester('2')">Sem 2</button>
+                <button class="sem-tab" onclick="filterSemester('3')">Sem 3</button>
+                <button class="sem-tab" onclick="filterSemester('4')">Sem 4</button>
+                <button class="sem-tab" onclick="filterSemester('5')">Sem 5</button>
+                <button class="sem-tab" onclick="filterSemester('6')">Sem 6</button>
+            </div>
+
+            <table class="marks-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">S.No</th>
+                        <th rowspan="2">Sub Code</th>
+                        <th rowspan="2" class="left">Subject Title</th>
+                        <th colspan="2">CIA (25)</th>
+                        <th colspan="2">ESE (75)</th>
+                        <th colspan="2">Total (100)</th>
+                        <th rowspan="2">Credits</th>
+                        <th rowspan="2">Grade</th>
+                        <th rowspan="2">Pts</th>
+                        <th rowspan="2">Result</th>
+                        <th rowspan="2">Remark</th>
+                    </tr>
+                    <tr>
+                        <th>Max</th>
+                        <th>Sec</th>
+                        <th>Max</th>
+                        <th>Sec</th>
+                        <th>Max</th>
+                        <th>Sec</th>
+                    </tr>
+                </thead>
+
+                {% for sem_info in semester_data %}
+                <tbody class="sem-tbody" data-semester="{{ sem_info.semester }}" data-marks="{{ sem_info.total_marks }}"
+                    data-percentage="{{ sem_info.percentage }}" data-gpa="{{ sem_info.gpa }}">
+
+                    <!-- ── Semester Header Row ── -->
+                    <tr style="background:#1e3c72;color:#fff;">
+                        <td colspan="14" style="text-align:left;padding:5px 8px;font-weight:bold;font-size:12px;">
+                            Semester {{ sem_info.semester }}
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            Total: {{ sem_info.total_marks }}
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            Percentage: {{ sem_info.percentage }}%
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            GPA: {{ sem_info.gpa }}
+                            &nbsp;&nbsp;|&nbsp;&nbsp;
+                            Arrears: {% if sem_info.arrears_after == 0 %}Nil{% else %}{{ sem_info.arrears_after }}{% endif %}
+                        </td>
+                    </tr>
+
+                    {% for mark in sem_info.regular_marks %}
+                    <tr>
+                        <td class="sno-cell"></td>
+                        <td>{{ mark.subject.code }}</td>
+                        <td class="left">{{ mark.subject.name }}</td>
+                        <td>25</td>
+                        <td>{{ mark.internal }}</td>
+                        <td>75</td>
+                        <td>{{ mark.external }}</td>
+                        <td>100</td>
+                        <td>{{ mark.total_calc }}</td>
+                        <td>{{ mark.subject.credits }}</td>
+                        <td>{{ mark.grade }}</td>
+                        <td>{{ mark.points }}</td>
+                        <td>
+                            {% if mark.external == 0 %}Absent
+                            {% elif mark.external >= 1 and mark.external <= 29 %}Arrear
+                            {% else %}Pass{% endif %}
+                        </td>
+                        <td class="arrear-note">{% if mark.external == 0 %}Absent{% elif mark.external <= 29 %}Arrear{% else %}&mdash;{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+
+                    {% if sem_info.arrear_attempts %}
+                    <!-- Arrear attempts sub-header -->
+                    <tr style="background:#fff3cd;">
+                        <td colspan="14" style="text-align:left;padding:3px 8px;font-size:11px;font-style:italic;color:#7a5800;">
+                            ↳ Arrear Re-attempts (Semester {{ sem_info.semester }})
+                        </td>
+                    </tr>
+                    {% for mark in sem_info.arrear_attempts %}
+                    <tr>
+                        <td class="sno-cell"></td>
+                        <td>{{ mark.subject.code }}</td>
+                        <td class="left">{{ mark.subject.name }}</td>
+                        <td>25</td>
+                        <td>{{ mark.internal }}</td>
+                        <td>75</td>
+                        <td>{{ mark.external }}</td>
+                        <td>100</td>
+                        <td>{{ mark.total_calc }}</td>
+                        <td>{{ mark.subject.credits }}</td>
+                        <td>{{ mark.grade }}</td>
+                        <td>{{ mark.points }}</td>
+                        <td>
+                            {% if mark.external == 0 %}Absent
+                            {% elif mark.external >= 1 and mark.external <= 29 %}Arrear
+                            {% else %}Pass{% endif %}
+                        </td>
+                        <td class="arrear-note">{% if mark.external == 0 %}Absent{% elif mark.external <= 29 %}Arrear Pending{% else %}Arrear Cleared{% endif %}</td>
+                    </tr>
+                    {% endfor %}
+                    {% endif %}
+
+                </tbody>
+                {% endfor %}
+            </table>
+
+            <div class="summary">
+                <table style="width:100%;border-collapse:collapse;margin-top:10px;">
+                    <thead>
+                        <tr style="background:#e6e6e6;">
+                            <th style="border:1px solid #333;padding:6px 10px;font-size:12px;text-align:left;">Semester</th>
+                            <th style="border:1px solid #333;padding:6px 10px;font-size:12px;">Total Marks</th>
+                            <th style="border:1px solid #333;padding:6px 10px;font-size:12px;">Percentage</th>
+                            <th style="border:1px solid #333;padding:6px 10px;font-size:12px;">GPA</th>
+                            <th style="border:1px solid #333;padding:6px 10px;font-size:12px;">Arrears</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sem_info in semester_data %}
+                        <tr id="sem-row-{{ sem_info.semester }}">
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;font-weight:bold;">
+                                Semester {{ sem_info.semester }}
+                            </td>
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;text-align:center;"
+                                class="sem-total-{{ sem_info.semester }}">
+                                {{ sem_info.total_marks }}
+                            </td>
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;text-align:center;"
+                                class="sem-percent-{{ sem_info.semester }}">
+                                {{ sem_info.percentage }}%
+                            </td>
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;text-align:center;"
+                                class="sem-gpa-{{ sem_info.semester }}">
+                                {{ sem_info.gpa }}
+                            </td>
+                            <td class="summary-arrear-cell {% if sem_info.arrears_after > 0 %}arrear-pending{% else %}arrear-ok{% endif %}">
+                                {% if sem_info.arrears_after == 0 %}Nil{% else %}{{ sem_info.arrears_after }} Arrear {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        <!-- Overall row -->
+                        <tr style="background:#f0f4ff;font-weight:bold;">
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;">Overall</td>
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;text-align:center;"
+                                id="disp-total">{{ total_marks }}</td>
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;text-align:center;"
+                                id="disp-percent">{{ percentage }}%</td>
+                            <td style="border:1px solid #333;padding:5px 10px;font-size:13px;text-align:center;"
+                                id="disp-gpa">{{ gpa }}</td>
+                            <td class="summary-arrear-cell {% if total_arrears > 0 %}arrear-pending{% else %}arrear-ok{% endif %}">
+                                {% if total_arrears == 0 %}All Cleared{% else %}{{ total_arrears }} Subject{{ total_arrears|pluralize }} Pending{% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <div class="qr">
+                <img src="{{ qr_code_url }}">
+                <p>Scan for verification</p>
+            </div>
+            <div class="signature">
+                <img src="{% static 'images/controller.jpeg' %}">
+                <p>Controller of Examinations</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="download">
+        <button onclick="window.print()">Print / Download PDF</button>
+    </div>
+    <script>
+        // Store the global totals generated by the backend
+        const globalTotals = {
+            marks: "{{ total_marks }}",
+            percentage: "{{ percentage|floatformat:2 }}",
+            gpa: "{{ gpa|floatformat:2 }}"
+        };
+
+        document.addEventListener("DOMContentLoaded", function () {
+            recalcSno();
+        });
+
+        function filterSemester(sem) {
+            // Update active tab styling
+            document.querySelectorAll('.sem-tab').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            let currentTotal = 0;
+            let currentPct = 0;
+            let currentGpa = 0;
+
+            // Show/hide tbodies based on selection
+            document.querySelectorAll('.sem-tbody').forEach(tbody => {
+                if (sem === 'all' || tbody.getAttribute('data-semester') === sem) {
+                    tbody.style.display = "";
+                    currentTotal = tbody.getAttribute('data-marks');
+                    currentPct = tbody.getAttribute('data-percentage');
+                    currentGpa = tbody.getAttribute('data-gpa');
+                } else {
+                    tbody.style.display = "none";
+                }
+            });
+
+            // Re-number visible S.No cells
+            recalcSno();
+
+            // Update the summary tables
+            if (sem === 'all') {
+                document.getElementById('disp-total').innerText = globalTotals.marks;
+                document.getElementById('disp-percent').innerText = globalTotals.percentage + "%";
+                document.getElementById('disp-gpa').innerText = globalTotals.gpa;
+            } else {
+                document.getElementById('disp-total').innerText = currentTotal;
+                document.getElementById('disp-percent').innerText = currentPct + "%";
+                document.getElementById('disp-gpa').innerText = currentGpa;
+            }
+        }
+
+        function recalcSno() {
+            let index = 1;
+            document.querySelectorAll(".sem-tbody").forEach(tbody => {
+                if (tbody.style.display !== "none") {
+                    tbody.querySelectorAll(".sno-cell").forEach(cell => {
+                        cell.innerText = index++;
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

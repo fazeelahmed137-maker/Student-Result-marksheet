@@ -1,0 +1,80 @@
+--- Departments ---
+ID: 1, Name: BCA
+ID: 2, Name: Bsc Computer Science
+ID: 3, Name: Bsc Physics
+ID: 4, Name: Bsc Chemistry
+ID: 5, Name: Bsc Mathematics
+ID: 6, Name: B.com
+
+--- Years ---
+ID: 1, Dept ID: 1, Year: I
+ID: 2, Dept ID: 1, Year: II
+ID: 3, Dept ID: 1, Year: III
+ID: 4, Dept ID: 2, Year: I
+ID: 5, Dept ID: 2, Year: II
+ID: 6, Dept ID: 2, Year: III
+ID: 7, Dept ID: 3, Year: I
+ID: 8, Dept ID: 3, Year: II
+ID: 9, Dept ID: 3, Year: III
+ID: 10, Dept ID: 4, Year: I
+ID: 11, Dept ID: 4, Year: II
+ID: 12, Dept ID: 4, Year: III
+ID: 13, Dept ID: 5, Year: I
+ID: 14, Dept ID: 5, Year: II
+ID: 15, Dept ID: 5, Year: III
+ID: 16, Dept ID: 6, Year: I
+ID: 17, Dept ID: 6, Year: II
+ID: 18, Dept ID: 6, Year: III
+
+--- Semesters ---
+ID: 3, Year ID: 1, Name: Semester-1
+ID: 5, Year ID: 13, Name: Semester-2
+ID: 6, Year ID: 11, Name: Semester-3
+ID: 7, Year ID: 11, Name: Semester-4
+ID: 8, Year ID: 12, Name: Semester-5
+ID: 9, Year ID: 12, Name: Semester-6
+ID: 10, Year ID: 1, Name: 1
+
+--- Subjects ---
+ID: 1, Dept ID: 1, Sem: 1, Code: U18FTA101, Name: TAMIL - I
+ID: 2, Dept ID: 1, Sem: 1, Code: U18FCE102, Name: COMMUNICATIVE ENGLISH - I
+ID: 3, Dept ID: 1, Sem: 1, Code: U18CPE102, Name: PROFESSIONAL ENGLSH - I
+ID: 4, Dept ID: 1, Sem: 1, Code: U18MCA101, Name: FUNDAMENTALS OF IT AND C PROGRAMMING
+ID: 5, Dept ID: 1, Sem: 1, Code: U18MCAP11, Name: PRACTICAL - I MS OFFFICE AND C PROGRAMMING
+ID: 6, Dept ID: 1, Sem: 1, Code: U18AMA102, Name: MATHEMATICAL FOUNDATION - 1 (ALLIED)
+ID: 7, Dept ID: 1, Sem: 1, Code: U18CES101, Name: ENVIRONMENTAL STUDIES
+ID: 8, Dept ID: 1, Sem: 2, Code: U18FTA201, Name: TAMIL - II
+ID: 9, Dept ID: 1, Sem: 2, Code: U18FCE202, Name: COMMUNICATIVE ENGLISH - II
+ID: 10, Dept ID: 1, Sem: 2, Code: U18CPE202, Name: PROFESSIONAL ENGLSH - II
+ID: 11, Dept ID: 1, Sem: 2, Code: U18MCA202, Name: C++ AND DATA STRUCTURE
+ID: 12, Dept ID: 1, Sem: 2, Code: U18MCAP12, Name: PRACTICAL - II C++ AND DATA STRUCTURE
+ID: 13, Dept ID: 1, Sem: 2, Code: U18AMA202, Name: MATHEMATICAL FOUNDATION - II (ALLIED)
+ID: 14, Dept ID: 1, Sem: 2, Code: U18CVE201, Name: VALUE EDUCATION
+ID: 15, Dept ID: 1, Sem: 3, Code: U18FTA301, Name: TAMIL - III
+ID: 16, Dept ID: 1, Sem: 3, Code: U18FEN301, Name: ENGLISH - III
+ID: 17, Dept ID: 1, Sem: 3, Code: U18MCA301, Name: PYTHON
+ID: 18, Dept ID: 1, Sem: 3, Code: U18MCAP31, Name: PRACTICAL - III PYTHON LAB
+ID: 19, Dept ID: 1, Sem: 3, Code: U18ACM301, Name: FINANCIAL AND MANAGEMENT ACCOUNTING (ALLIED)
+ID: 20, Dept ID: 1, Sem: 3, Code: U18SCA301, Name: OPERATING SYSTEM
+ID: 21, Dept ID: 1, Sem: 3, Code: U18NBA301, Name: MANAGEMENT CONCEPTS (NME - I)
+ID: 22, Dept ID: 1, Sem: 4, Code: U18FTA401, Name: TAMIL - IV
+ID: 23, Dept ID: 1, Sem: 4, Code: U18FEN401, Name: ENGLISH - IV
+ID: 24, Dept ID: 1, Sem: 4, Code: U18MCA401, Name: ADVANCED JAVA PROGRAMMING
+ID: 25, Dept ID: 1, Sem: 4, Code: U18ACM401, Name: FINANCIAL AND MANAGEMENT ACCOUNTING - II (ALLIED)
+ID: 26, Dept ID: 1, Sem: 4, Code: U18SCA401, Name: INTERNETWORKING WITH TCP/IP (SBS - II)
+ID: 27, Dept ID: 1, Sem: 4, Code: U18NBA401, Name: BUSINESS CORRESPONDENCE (NME - II )
+ID: 28, Dept ID: 1, Sem: 5, Code: U18MCA501, Name: DATABASE MANAGEMENT SYSTEM
+ID: 29, Dept ID: 1, Sem: 5, Code: U18MCA502, Name: VISUAL BASIC PROGRAMMING
+ID: 30, Dept ID: 1, Sem: 5, Code: U18MCAP51, Name: PRACTICAL-V VISUAL BASIC PROGRAMMING LAB
+ID: 31, Dept ID: 1, Sem: 5, Code: U18MCAP52, Name: PRACTICAL-VI ORACLE LAB
+ID: 32, Dept ID: 1, Sem: 5, Code: U18ECA501, Name: DIGITAL LOGIC AND MICROPROCESSOR
+ID: 33, Dept ID: 1, Sem: 5, Code: U18EINP51, Name: INTERNSHIP TRAINING
+ID: 34, Dept ID: 1, Sem: 5, Code: U18SCA501, Name: CRYPTOGRAPHY AND NETWORK SECURITY (SBS - III)
+ID: 35, Dept ID: 1, Sem: 6, Code: U18MCA601, Name: WEB PROGRAMMING
+ID: 36, Dept ID: 1, Sem: 6, Code: U18MCA602, Name: R PROGRAMMING
+ID: 37, Dept ID: 1, Sem: 6, Code: U18MCAP61, Name: PRACTICAL - VII WEB PROGRAMMING LAB
+ID: 38, Dept ID: 1, Sem: 6, Code: U18MCAP62, Name: PRACTICAL - VIII R PROGRAMMING LAB
+ID: 39, Dept ID: 1, Sem: 6, Code: U18MCAP60, Name: PROJECT AND VIVA VOCE
+ID: 40, Dept ID: 1, Sem: 6, Code: U18ECA601, Name: GRID AND CLOUD COMPUTING (ELECTIVE - II)
+ID: 41, Dept ID: 1, Sem: 6, Code: U18SCA601, Name: BIG-DATA ANALYTICS (SBS-IV)
+ID: 42, Dept ID: 1, Sem: 6, Code: U18CEA601, Name: EXTENSION ACTIVITES

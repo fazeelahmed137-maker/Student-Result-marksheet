@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login – C. Abdul Hakeem College</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: #0d1b2a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%);
+            top: -100px; right: -100px;
+            border-radius: 50%;
+        }
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(30,60,114,0.15) 0%, transparent 70%);
+            bottom: -80px; left: -80px;
+            border-radius: 50%;
+        }
+        .login-wrap {
+            position: relative; z-index: 1;
+            width: 420px;
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .login-top {
+            background: linear-gradient(135deg, #0d1b2a 0%, #1a3a6e 100%);
+            padding: 36px 32px 28px;
+            text-align: center;
+        }
+        .college-badge {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.4);
+        }
+        .login-top h1 { color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0.5px; }
+        .login-top p  { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 4px; }
+        .login-tag {
+            display: inline-block;
+            background: rgba(245,158,11,0.2);
+            border: 1px solid rgba(245,158,11,0.4);
+            color: #f59e0b;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 14px;
+            border-radius: 20px;
+            margin-top: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .login-body { padding: 32px; }
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 7px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        input {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1.5px solid #e5e7eb;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #111827;
+            outline: none;
+            transition: border 0.2s, box-shadow 0.2s;
+            background: #f9fafb;
+        }
+        input:focus {
+            border-color: #f59e0b;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.12);
+        }
+        .btn {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+            margin-top: 8px;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,158,11,0.4); }
+        .error-msg {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="login-wrap">
+    <div class="login-top">
+        <div class="college-badge">🎓</div>
+        <h1>C. ABDUL HAKEEM COLLEGE</h1>
+        <p>Melvisharam — Affiliated to Thiruvalluvar University</p>
+        <span class="login-tag">Admin Portal</span>
+    </div>
+    <div class="login-body">
+        <form method="post" autocomplete="off">
+            {% csrf_token %}
+            <!-- Dummy inputs: absorb browser autofill so real fields stay empty -->
+            <input type="text" style="display:none" name="fakeuser" tabindex="-1">
+            <input type="password" style="display:none" name="fakepass" tabindex="-1">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" id="username" name="username"
+                       placeholder="Enter admin username" required
+                       autocomplete="new-password"
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password" name="password"
+                       placeholder="••••••••" required
+                       autocomplete="new-password"
+                       readonly
+                       onfocus="this.removeAttribute('readonly')">
+            </div>
+            <button class="btn" type="submit">Sign In →</button>
+            {% if error %}<div class="error-msg">{{ error }}</div>{% endif %}
+        </form>
+    </div>
+</div>
+</body>
+</html>

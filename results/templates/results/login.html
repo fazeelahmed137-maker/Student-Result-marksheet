@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Result Portal – C. Abdul Hakeem College</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: #f0fdf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* ── Outer Card (split panel) ── */
+        .card {
+            display: flex;
+            width: 860px;
+            max-width: 100%;
+            background: #fff;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(5, 150, 105, 0.15), 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        /* ── Left Panel ── */
+        .panel-left {
+            flex: 1.1;
+            background: linear-gradient(160deg, #065f46 0%, #059669 50%, #10b981 100%);
+            padding: 52px 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .panel-left::before {
+            content: '';
+            position: absolute;
+            width: 320px; height: 320px;
+            background: rgba(255,255,255,0.06);
+            border-radius: 50%;
+            top: -80px; right: -80px;
+        }
+        .panel-left::after {
+            content: '';
+            position: absolute;
+            width: 200px; height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            bottom: -40px; left: -40px;
+        }
+
+        .college-logo {
+            width: 64px; height: 64px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 16px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 30px;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-bottom: 28px;
+        }
+        .panel-left h1 {
+            color: #fff;
+            font-size: 22px;
+            font-weight: 700;
+            line-height: 1.3;
+            max-width: 240px;
+            margin-bottom: 12px;
+        }
+        .panel-left p {
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+            line-height: 1.7;
+            max-width: 240px;
+        }
+
+        .info-badges {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .info-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 12px;
+            padding: 12px 16px;
+            backdrop-filter: blur(6px);
+        }
+        .info-badge .ib-icon {
+            font-size: 20px;
+        }
+        .info-badge .ib-text strong {
+            display: block;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .info-badge .ib-text span {
+            color: rgba(255,255,255,0.65);
+            font-size: 11px;
+        }
+
+        .panel-left-top { position: relative; z-index: 1; }
+
+        /* ── Right Panel ── */
+        .panel-right {
+            flex: 1;
+            padding: 52px 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .portal-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ecfdf5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .portal-tag::before { content: '●'; font-size: 8px; color: #10b981; }
+
+        .panel-right h2 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #065f46;
+            margin-bottom: 6px;
+        }
+        .panel-right .sub {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+
+        .form-group { margin-bottom: 20px; }
+        label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid #d1fae5;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            color: #111827;
+            background: #f0fdf4;
+            outline: none;
+            transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: #10b981;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(16,185,129,0.12);
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 13px;
+            background: linear-gradient(135deg, #059669, #065f46);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 0.3px;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 16px rgba(5,150,105,0.35);
+            margin-top: 8px;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(5,150,105,0.45);
+        }
+
+        .error-msg {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 14px;
+            text-align: center;
+        }
+
+        .login-footer {
+            text-align: center;
+            font-size: 11px;
+            color: #9ca3af;
+            margin-top: 28px;
+        }
+        .login-footer a {
+            color: #059669;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .login-footer a:hover { text-decoration: underline; }
+
+        /* ── Hamburger/Menu (admin link) ── */
+        .hamburger-btn {
+            position: fixed;
+            top: 20px; left: 20px;
+            width: 44px; height: 44px;
+            background: #fff;
+            border: 1px solid #d1fae5;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 5px;
+            transition: background 0.2s, box-shadow 0.2s;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .hamburger-btn:hover { background: #ecfdf5; box-shadow: 0 4px 12px rgba(16,185,129,0.2); }
+        .hamburger-btn span {
+            display: block; width: 18px; height: 2px;
+            background: #065f46; border-radius: 2px;
+        }
+        .menu-dropdown {
+            display: none;
+            position: fixed;
+            top: 72px; left: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            min-width: 210px;
+            overflow: hidden;
+            z-index: 200;
+            border: 1px solid #d1fae5;
+            animation: fadeIn 0.2s ease;
+        }
+        .menu-dropdown.show { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        .menu-label {
+            padding: 10px 16px 6px;
+            font-size: 10px; font-weight: 600;
+            color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .menu-item {
+            display: flex; align-items: center; gap: 10px;
+            padding: 11px 16px;
+            font-size: 13px; font-weight: 500;
+            color: #111827; text-decoration: none;
+            transition: background 0.15s;
+        }
+        .menu-item:hover { background: #f9fafb; }
+        .menu-item .mi-icon {
+            width: 28px; height: 28px; border-radius: 7px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 14px; flex-shrink: 0;
+        }
+        .mi-admin .mi-icon { background: rgba(245,158,11,0.12); }
+        .mi-faculty .mi-icon { background: rgba(5,150,105,0.1); }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .panel-left { display: none; }
+            .panel-right { padding: 40px 28px; }
+            .card { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Hamburger Button (other portals) -->
+<div class="hamburger-btn" onclick="toggleMenu()" id="hamburgerBtn">
+    <span></span><span></span><span></span>
+</div>
+<div class="menu-dropdown" id="menuDropdown">
+    <div class="menu-label">Other Portals</div>
+    <a href="/admin-panel/login/" class="menu-item mi-admin">
+        <div class="mi-icon">🛡️</div> Admin Login
+    </a>
+    <div style="height:1px;background:#f1f5f9;margin:4px 0;"></div>
+    <a href="/admin/" class="menu-item mi-faculty">
+        <div class="mi-icon">📚</div> Faculty Login
+    </a>
+</div>
+
+<div class="card">
+
+    <!-- Left info panel -->
+    <div class="panel-left">
+        <div class="panel-left-top">
+            <div class="college-logo">🎓</div>
+            <h1>Student Result Portal</h1>
+            <p>Access your semester results, marksheets and performance summary instantly.</p>
+        </div>
+        <div class="info-badges">
+            <div class="info-badge">
+                <div class="ib-icon">📋</div>
+                <div class="ib-text">
+                    <strong>Semester Results</strong>
+                    <span>All semesters in one place</span>
+                </div>
+            </div>
+            <div class="info-badge">
+                <div class="ib-icon">📊</div>
+                <div class="ib-text">
+                    <strong>GPA & Percentage</strong>
+                    <span>Detailed performance analytics</span>
+                </div>
+            </div>
+            <div class="info-badge">
+                <div class="ib-icon">📄</div>
+                <div class="ib-text">
+                    <strong>Downloadable Marksheet</strong>
+                    <span>PDF with QR verification</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right form panel -->
+    <div class="panel-right">
+        <span class="portal-tag">Student Portal</span>
+        <h2>View Your Results</h2>
+        <p class="sub">Enter your register number and date of birth to continue.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Register Number</label>
+                <input type="text" name="roll_no" placeholder="e.g. HCU23J01" required>
+            </div>
+            <div class="form-group">
+                <label>Date of Birth</label>
+                <input type="date" name="dob" required>
+            </div>
+            <button class="btn-submit" type="submit">View My Results →</button>
+            {% if error %}<div class="error-msg">{{ error }}</div>{% endif %}
+        </form>
+
+        <div class="login-footer">
+            © 2024 C. Abdul Hakeem College (Autonomous) &nbsp;|&nbsp;
+            <a href="/admin-panel/login/">Admin Login</a>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('menuDropdown').classList.toggle('show');
+    }
+    document.addEventListener('click', function(e) {
+        const btn  = document.getElementById('hamburgerBtn');
+        const menu = document.getElementById('menuDropdown');
+        if (!btn.contains(e.target) && !menu.contains(e.target)) {
+            menu.classList.remove('show');
+        }
+    });
+</script>
+</body>
+</html>

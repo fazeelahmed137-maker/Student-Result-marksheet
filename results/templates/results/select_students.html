@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Students – C. Abdul Hakeem College</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            min-height: 100vh;
+            background: #0d1b2a;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; overflow: hidden;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(245,158,11,0.07) 0%, transparent 70%);
+            top: -80px; right: -80px; border-radius: 50%;
+        }
+        .card {
+            position: relative; z-index: 1;
+            background: #fff;
+            border-radius: 16px;
+            width: 480px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+        .card-top {
+            background: linear-gradient(135deg, #0d1b2a, #1a3a6e);
+            padding: 26px 28px 22px;
+            display: flex; align-items: center; gap: 14px;
+        }
+        .card-icon {
+            width: 46px; height: 46px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 20px; flex-shrink: 0;
+        }
+        .card-top h2 { color: #fff; font-size: 16px; font-weight: 700; }
+        .card-top p  { color: rgba(255,255,255,0.55); font-size: 11px; margin-top: 2px; }
+        .card-body { padding: 28px; }
+        .back-link {
+            display: inline-flex; align-items: center; gap: 5px;
+            color: #6b7280; text-decoration: none;
+            font-size: 12px; font-weight: 500;
+            margin-bottom: 22px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #f59e0b; }
+        .form-group { margin-bottom: 18px; }
+        label {
+            display: block;
+            font-size: 11px; font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 6px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(245,158,11,0.12);
+            border: 1px solid rgba(245,158,11,0.3);
+            color: #92400e;
+            border-radius: 20px; padding: 1px 10px;
+            font-size: 10px; font-weight: 600;
+            margin-left: 6px; vertical-align: middle;
+        }
+        select {
+            width: 100%; padding: 11px 13px;
+            border: 1.5px solid #e5e7eb; border-radius: 9px;
+            font-family: 'Poppins', sans-serif; font-size: 13px; color: #111827;
+            background: #f9fafb; outline: none;
+            transition: border 0.2s, box-shadow 0.2s; appearance: none;
+        }
+        select:focus { border-color: #f59e0b; background: #fff; box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
+        select:disabled { background: #f3f4f6; color: #9ca3af; cursor: not-allowed; }
+        .sem-hint { font-size: 11px; color: #6b7280; margin-top: 5px; min-height: 16px; }
+        .btn-submit {
+            width: 100%; margin-top: 8px; padding: 13px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: #fff; border: none; border-radius: 9px;
+            font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 700;
+            cursor: pointer; letter-spacing: 0.3px;
+            transition: transform 0.15s, box-shadow 0.15s;
+            box-shadow: 0 4px 15px rgba(245,158,11,0.3);
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(245,158,11,0.4); }
+    </style>
+</head>
+<body>
+<div class="card">
+    <div class="card-top">
+        <div class="card-icon">✏️</div>
+        <div>
+            <h2>Add Students</h2>
+            <p>Select the batch to add students manually</p>
+        </div>
+    </div>
+    <div class="card-body">
+        <a class="back-link" href="/admin-panel/dashboard">← Back to Dashboard</a>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>Department</label>
+                <select name="department" id="department" required onchange="filterYears()">
+                    <option value="">— Select Department —</option>
+                    {% for dept in departments %}
+                    <option value="{{ dept.id }}">{{ dept.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Year</label>
+                <select name="year" id="year" required onchange="updateSemesters()" disabled>
+                    <option value="">— Select Department First —</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Semester <span id="semBadge" class="badge" style="display:none"></span></label>
+                <select name="semester" id="semester" required disabled>
+                    <option value="">— Select Year First —</option>
+                </select>
+                <div class="sem-hint" id="semHint"></div>
+            </div>
+            <button class="btn-submit" type="submit">Continue →</button>
+        </form>
+    </div>
+</div>
+<script>
+const allYears = {{ years_json|safe }};
+function filterYears() {
+    const deptId = parseInt(document.getElementById('department').value);
+    const yearSel = document.getElementById('year');
+    const semSel  = document.getElementById('semester');
+    yearSel.innerHTML = '<option value="">— Select Year —</option>';
+    yearSel.disabled  = !deptId;
+    semSel.innerHTML  = '<option value="">— Select Year First —</option>';
+    semSel.disabled   = true;
+    document.getElementById('semHint').textContent = '';
+    document.getElementById('semBadge').style.display = 'none';
+    if (!deptId) return;
+    allYears.filter(y => y.dept_id === deptId).forEach(y => {
+        const opt = document.createElement('option');
+        opt.value = y.id; opt.textContent = y.label;
+        yearSel.appendChild(opt);
+    });
+}
+function updateSemesters() {
+    const yearId = document.getElementById('year').value;
+    const semSel = document.getElementById('semester');
+    const hint   = document.getElementById('semHint');
+    const badge  = document.getElementById('semBadge');
+    semSel.innerHTML = '<option value="">Loading…</option>';
+    semSel.disabled  = true;
+    if (!yearId) return;
+    fetch(`/api/semesters-for-year/${yearId}/`)
+        .then(r => r.json())
+        .then(data => {
+            const sems = data.semesters;
+            semSel.innerHTML = '<option value="">— Select Semester —</option>';
+            sems.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s; opt.textContent = 'Semester ' + s;
+                semSel.appendChild(opt);
+            });
+            semSel.disabled = false;
+            const pos = data.position;
+            badge.textContent = sems.length + ' semesters';
+            badge.style.display = 'inline-block';
+            hint.textContent = pos === 1 ? 'Year 1 — Semester 1 & 2' : `Year ${pos} — Semesters 1–${sems.length}`;
+        });
+}
+</script>
+</body>
+</html>
