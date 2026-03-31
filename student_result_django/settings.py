@@ -19,9 +19,9 @@ SECRET_KEY = os.environ.get(
 # DEBUG is False in production; set env var DEBUG=True for local dev
 DEBUG = True
 
-# Allow Railway domain + localhost
+# Allow Railway + Render domain + localhost
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
-CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.railway.app,https://*.up.railway.app').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.railway.app,https://*.up.railway.app,https://*.onrender.com').split(',')
 
 # ── Application definition ────────────────────────────────────────────────────
 INSTALLED_APPS = [
