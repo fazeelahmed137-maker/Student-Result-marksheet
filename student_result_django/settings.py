@@ -20,7 +20,8 @@ SECRET_KEY = os.environ.get(
 DEBUG = True
 
 # Allow Railway domain + localhost
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', "").split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
+CSRF_TRUSTED_ORIGINS = os.environ.get('CSRF_TRUSTED_ORIGINS', 'https://*.railway.app,https://*.up.railway.app').split(',')
 
 # ── Application definition ────────────────────────────────────────────────────
 INSTALLED_APPS = [
@@ -65,14 +66,20 @@ TEMPLATES = [
 WSGI_APPLICATION = 'student_result_django.wsgi.application'
 
 # ── Database ──────────────────────────────────────────────────────────────────
-# SQLite for both local and Railway (fine for this project size)
+# Database configuration: fallback to SQLite locally, use dj_database_url in production
 import dj_database_url
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3'
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# Update database config from env if provided
+db_from_env = dj_database_url.config(conn_max_age=500)
+if db_from_env:
+    DATABASES['default'].update(db_from_env)
 
 # ── Password validation ───────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
