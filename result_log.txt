@@ -1,6 +1,0 @@
-Starting check...
-File exists, size: 5038
-Row 1: ('Register No', 'Student Name', 'Tamil (Int)', 'Tamil (Ext)', 'English (Int)', 'English (Ext)', 'Maths (Int)', 'Maths (Ext)')
-Row 2: ('21CS001', 'John Doe', 20, 65, 22, 58, 25, 70)
-Row 3: ('21CS002', 'Jane Smith', 18, 55, 20, 60, 24, 68)
-Done.

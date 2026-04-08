@@ -67,8 +67,6 @@ WSGI_APPLICATION = 'student_result_django.wsgi.application'
 
 # ── Database ──────────────────────────────────────────────────────────────────
 # Database configuration: fallback to SQLite locally, use dj_database_url in production
-import dj_database_url
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -76,10 +74,13 @@ DATABASES = {
     }
 }
 
-# Update database config from env if provided
-db_from_env = dj_database_url.config(conn_max_age=500)
-if db_from_env:
-    DATABASES['default'].update(db_from_env)
+try:
+    import dj_database_url
+    db_from_env = dj_database_url.config(conn_max_age=500)
+    if db_from_env:
+        DATABASES['default'].update(db_from_env)
+except ImportError:
+    pass
 
 # ── Password validation ───────────────────────────────────────────────────────
 AUTH_PASSWORD_VALIDATORS = [
